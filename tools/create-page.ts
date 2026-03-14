@@ -14,12 +14,8 @@
 
 import { parseArgs } from "node:util";
 import { loadConfig } from "../src/config/loader.ts";
-import { createNotionClient } from "../src/notion/client.ts";
-import { findDatabase } from "../src/notion/database.ts";
-import {
-	buildPropertyValue,
-	type SchemaMap,
-} from "../src/notion/properties.ts";
+import { createPage } from "../src/core/create-page.ts";
+import { formatCreateResult } from "../src/presentation/notion-formatters.ts";
 
 async function main() {
 	const { values } = parseArgs({
@@ -42,45 +38,16 @@ async function main() {
 	}
 
 	const config = await loadConfig();
-	const db = findDatabase(config.databases, values.database);
-	const schemaEntry = config.schemas[db.key];
+	const properties = values.props
+		? (JSON.parse(values.props) as Record<string, unknown>)
+		: undefined;
 
-	if (!schemaEntry) {
-		console.error(
-			`Error: No schema found for "${db.key}". Run refresh-schema-cache.`,
-		);
-		process.exit(1);
-	}
-
-	const notion = createNotionClient(config.notionApiKey);
-	const schema = schemaEntry.schema as SchemaMap;
-
-	// Build properties starting with title
-	const properties: Record<string, Record<string, unknown>> = {
-		[db.titleProp]: buildPropertyValue(db.titleProp, values.title, schema),
-	};
-
-	// Parse additional props
-	if (values.props) {
-		const extraProps = JSON.parse(values.props) as Record<string, unknown>;
-		for (const [key, val] of Object.entries(extraProps)) {
-			properties[key] = buildPropertyValue(key, val, schema);
-		}
-	}
-
-	const response = (await notion.pages.create({
-		parent: {
-			type: "data_source_id",
-			data_source_id: db.id,
-		} as Parameters<typeof notion.pages.create>[0]["parent"],
-		properties: properties as Parameters<
-			typeof notion.pages.create
-		>[0]["properties"],
-	})) as { id: string; url: string };
-
-	console.log(
-		`Created: ${values.title} (ID: ${response.id}, URL: ${response.url})`,
-	);
+	const result = await createPage(config, {
+		database: values.database,
+		title: values.title,
+		properties,
+	});
+	console.log(formatCreateResult(result));
 }
 
 main().catch((err) => {

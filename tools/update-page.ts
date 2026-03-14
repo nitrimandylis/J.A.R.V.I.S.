@@ -15,18 +15,8 @@
 
 import { parseArgs } from "node:util";
 import { loadConfig } from "../src/config/loader.ts";
-import {
-	appendBlocks,
-	markdownToBlocks,
-	replacePageContent,
-} from "../src/notion/blocks.ts";
-import { createNotionClient } from "../src/notion/client.ts";
-import { findDatabase } from "../src/notion/database.ts";
-import {
-	buildPropertyByType,
-	buildPropertyValue,
-	type SchemaMap,
-} from "../src/notion/properties.ts";
+import { updatePage } from "../src/core/update-page.ts";
+import { formatUpdateResult } from "../src/presentation/notion-formatters.ts";
 
 async function main() {
 	const { values } = parseArgs({
@@ -51,64 +41,18 @@ async function main() {
 	}
 
 	const config = await loadConfig();
-	const notion = createNotionClient(config.notionApiKey);
+	const properties = values.props
+		? (JSON.parse(values.props) as Record<string, unknown>)
+		: undefined;
 
-	// Update properties if provided
-	if (values.props) {
-		const extraProps = JSON.parse(values.props) as Record<string, unknown>;
-		const properties: Record<string, Record<string, unknown>> = {};
-
-		if (values.database) {
-			const db = findDatabase(config.databases, values.database);
-			const schemaEntry = config.schemas[db.key];
-
-			if (schemaEntry) {
-				const schema = schemaEntry.schema as SchemaMap;
-				for (const [key, val] of Object.entries(extraProps)) {
-					properties[key] = buildPropertyValue(key, val, schema);
-				}
-			} else {
-				for (const [key, val] of Object.entries(extraProps)) {
-					properties[key] = buildPropertyByType("rich_text", val);
-				}
-			}
-		} else {
-			for (const [key, val] of Object.entries(extraProps)) {
-				if (key === "Status") {
-					properties[key] = buildPropertyByType("select", val);
-				} else if (typeof val === "boolean") {
-					properties[key] = buildPropertyByType("checkbox", val);
-				} else if (typeof val === "number") {
-					properties[key] = buildPropertyByType("number", val);
-				} else {
-					properties[key] = buildPropertyByType("rich_text", val);
-				}
-			}
-		}
-
-		await notion.pages.update({
-			page_id: values.id,
-			properties: properties as Parameters<
-				typeof notion.pages.update
-			>[0]["properties"],
-		});
-		console.log("Properties updated.");
-	}
-
-	// Update content if provided
-	if (values.content) {
-		if (values.append) {
-			const blocks = markdownToBlocks(values.content);
-			await appendBlocks(notion, values.id, blocks);
-			console.log(`Appended ${blocks.length} block(s).`);
-		} else {
-			await replacePageContent(notion, values.id, values.content);
-			const blockCount = markdownToBlocks(values.content).length;
-			console.log(`Replaced content with ${blockCount} block(s).`);
-		}
-	}
-
-	console.log(`Done: ${values.id}`);
+	const result = await updatePage(config, {
+		id: values.id,
+		database: values.database,
+		properties,
+		content: values.content,
+		append: values.append,
+	});
+	console.log(formatUpdateResult(result));
 }
 
 main().catch((err) => {

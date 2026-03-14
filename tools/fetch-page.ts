@@ -14,9 +14,9 @@
 
 import { parseArgs } from "node:util";
 import { loadConfig } from "../src/config/loader.ts";
-import { fetchPageContent } from "../src/notion/blocks.ts";
-import { createNotionClient } from "../src/notion/client.ts";
-import { extractAllProperties } from "../src/notion/properties.ts";
+import { fetchPage } from "../src/core/fetch-page.ts";
+import { formatOutput } from "../src/presentation/format.ts";
+import { formatPageResult } from "../src/presentation/notion-formatters.ts";
 
 async function main() {
 	const { values } = parseArgs({
@@ -35,70 +35,13 @@ async function main() {
 	}
 
 	const config = await loadConfig();
-	const notion = createNotionClient(config.notionApiKey);
+	const result = await fetchPage(config, {
+		id: values.id,
+		includeContent: !(values["no-content"] ?? false),
+	});
 
-	const page = (await notion.pages.retrieve({
-		page_id: values.id,
-	})) as {
-		id: string;
-		url: string;
-		created_time: string;
-		last_edited_time: string;
-		archived: boolean;
-		properties: Record<string, Record<string, unknown>>;
-		parent: Record<string, unknown>;
-	};
-
-	const props = extractAllProperties(page.properties);
-
-	// Fetch page content (blocks) unless --no-content is set
-	const skipContent = values["no-content"] ?? false;
-	const content = skipContent ? "" : await fetchPageContent(notion, values.id);
-
-	if (values.json) {
-		console.log(
-			JSON.stringify(
-				{
-					id: page.id,
-					url: page.url,
-					archived: page.archived,
-					created: page.created_time,
-					last_edited: page.last_edited_time,
-					properties: props,
-					content: content || null,
-				},
-				null,
-				2,
-			),
-		);
-		return;
-	}
-
-	// Find title property
-	const titleEntry = Object.entries(page.properties).find(
-		([_, v]) => v.type === "title",
-	);
-	const title = titleEntry ? (props[titleEntry[0]] ?? "Untitled") : "Untitled";
-
-	console.log(`${title}`);
-	console.log(`ID: ${page.id}`);
-	console.log(`URL: ${page.url}`);
-	console.log(`Created: ${page.created_time.split("T")[0]}`);
-	console.log(`Edited: ${page.last_edited_time.split("T")[0]}`);
-	if (page.archived) {
-		console.log("Status: ARCHIVED");
-	}
-	console.log("");
-
-	for (const [key, value] of Object.entries(props)) {
-		if (titleEntry && key === titleEntry[0]) continue;
-		console.log(`${key}: ${value}`);
-	}
-
-	if (content) {
-		console.log("\n--- Content ---\n");
-		console.log(content);
-	}
+	const mode = values.json ? "json" : "human";
+	console.log(formatOutput(result, mode, formatPageResult));
 }
 
 main().catch((err) => {

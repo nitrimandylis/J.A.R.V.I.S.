@@ -13,7 +13,8 @@
 
 import { parseArgs } from "node:util";
 import { loadConfig } from "../src/config/loader.ts";
-import { createNotionClient } from "../src/notion/client.ts";
+import { deletePage } from "../src/core/delete-page.ts";
+import { formatDeleteResult } from "../src/presentation/notion-formatters.ts";
 
 async function main() {
 	const { values } = parseArgs({
@@ -30,15 +31,8 @@ async function main() {
 	}
 
 	const config = await loadConfig();
-	const notion = createNotionClient(config.notionApiKey);
-
-	// Archive the page (Notion's version of delete)
-	const response = (await notion.pages.update({
-		page_id: values.id,
-		archived: true,
-	})) as { id: string; url: string };
-
-	console.log(`Archived: ${response.id} (${response.url})`);
+	const result = await deletePage(config, { id: values.id });
+	console.log(formatDeleteResult(result));
 }
 
 main().catch((err) => {
