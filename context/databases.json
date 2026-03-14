@@ -1,0 +1,38 @@
+{
+	"Assignments": {
+		"data_source_id": "2abc25ce-2747-41a5-b0dd-aa3b5c9d7ea1",
+		"title_property": "Task"
+	},
+	"CAS Activities": {
+		"data_source_id": "49744652-2289-44ba-b2d7-de9a25f2f3c7",
+		"title_property": "Experience"
+	},
+	"Side Quests": {
+		"data_source_id": "6f1def5a-d41e-41a2-8928-9d2068356163",
+		"title_property": "Name"
+	},
+	"EE Progress Tracker": {
+		"data_source_id": "4257d220-dd56-4a13-850e-a5a7e4a5d2e4",
+		"title_property": "Component"
+	},
+	"Modern Greek Portfolio": {
+		"data_source_id": "d1c85d93-9eec-45d6-913a-7accb1fbe4a4",
+		"title_property": "Title"
+	},
+	"Backlog Items": {
+		"data_source_id": "be9f228b-d3ff-43fd-a357-fef2424d8914",
+		"title_property": "Name"
+	},
+	"Coding Projects": {
+		"data_source_id": "4793ae4a-5050-459a-9b97-114f0656d15a",
+		"title_property": "Project"
+	},
+	"Daily Notes": {
+		"data_source_id": "115f3588-3aaa-4cf0-baf8-0fa01f009dda",
+		"title_property": "Date"
+	},
+	"Claude Memory": {
+		"data_source_id": "7e16b69e-0671-4af6-b4d2-14486534f6da",
+		"title_property": "Memory"
+	}
+}

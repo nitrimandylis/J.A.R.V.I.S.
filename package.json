@@ -1,0 +1,22 @@
+{
+	"name": "jarvis",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"test": "bun test",
+		"lint": "bunx biome check",
+		"lint:fix": "bunx biome check --fix",
+		"typecheck": "bunx tsc --noEmit"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.7",
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"@notionhq/client": "^5.13.0",
+		"zod": "^4.3.6"
+	}
+}

@@ -1,0 +1,333 @@
+{
+	"Assignments": {
+		"data_source_id": "2abc25ce-2747-41a5-b0dd-aa3b5c9d7ea1",
+		"title_property": "Task",
+		"schema": {
+			"Task": { "type": "title" },
+			"Status": {
+				"type": "select",
+				"options": ["To Do", "In Progress", "Done", "Overdue"]
+			},
+			"Subject": {
+				"type": "select",
+				"options": [
+					"CS HL",
+					"Math AA HL",
+					"English B HL",
+					"Business SL",
+					"Modern Greek SL",
+					"Global Politics SL",
+					"TOK",
+					"Other"
+				]
+			},
+			"Due": { "type": "date" },
+			"Type": {
+				"type": "select",
+				"options": [
+					"Homework",
+					"IA",
+					"Assessment",
+					"Exam Prep",
+					"Project",
+					"Revision"
+				]
+			},
+			"Priority": {
+				"type": "select",
+				"options": ["🔥 High", "⚡ Medium", "🧊 Low"]
+			},
+			"Notes": { "type": "text" },
+			"Source": {
+				"type": "select",
+				"options": ["ManageBac", "TickTick", "Manual"]
+			},
+			"ManageBac ID": { "type": "text" }
+		},
+		"sqlite": "CREATE TABLE IF NOT EXISTS \"collection://2abc25ce-2747-41a5-b0dd-aa3b5c9d7ea1\" (\n\turl TEXT UNIQUE,\n\tcreatedTime TEXT,\n\t\"Priority\" TEXT, -- one of [\"🔥 High\", \"⚡ Medium\", \"🧊 Low\"]\n\t\"Source\" TEXT, -- one of [\"ManageBac\", \"TickTick\", \"Manual\"]\n\t\"Subject\" TEXT, -- one of [\"CS HL\", \"Math AA HL\", \"English B HL\", \"Business SL\", \"Modern Greek SL\", \"Global Politics SL\", \"TOK\", \"Other\"]\n\t\"date:Due:start\" TEXT,\n\t\"date:Due:end\" TEXT,\n\t\"date:Due:is_datetime\" INTEGER,\n\t\"Notes\" TEXT,\n\t\"Status\" TEXT, -- one of [\"To Do\", \"In Progress\", \"Done\", \"Overdue\"]\n\t\"Type\" TEXT, -- one of [\"Homework\", \"IA\", \"Assessment\", \"Exam Prep\", \"Project\", \"Revision\"]\n\t\"ManageBac ID\" TEXT,\n\t\"Task\" TEXT\n)"
+	},
+	"CAS Activities": {
+		"data_source_id": "49744652-2289-44ba-b2d7-de9a25f2f3c7",
+		"title_property": "Experience",
+		"schema": {
+			"Experience": { "type": "title" },
+			"Status": {
+				"type": "select",
+				"options": ["Planned", "Ongoing", "Completed"]
+			},
+			"Strand": {
+				"type": "multi_select",
+				"options": ["Creativity", "Activity", "Service"]
+			},
+			"Date": { "type": "date" },
+			"Hours": { "type": "number" },
+			"Description": { "type": "text" },
+			"Logged": { "type": "checkbox" },
+			"Evidence": { "type": "file" }
+		},
+		"sqlite": "CREATE TABLE IF NOT EXISTS \"collection://49744652-2289-44ba-b2d7-de9a25f2f3c7\" (\n\turl TEXT UNIQUE,\n\tcreatedTime TEXT,\n\t\"Strand\" TEXT, -- JSON array with zero or more of [\"Creativity\", \"Activity\", \"Service\"]\n\t\"Evidence\" TEXT,\n\t\"Status\" TEXT, -- one of [\"Planned\", \"Ongoing\", \"Completed\"]\n\t\"Description\" TEXT,\n\t\"Logged\" TEXT,\n\t\"date:Date:start\" TEXT,\n\t\"date:Date:end\" TEXT,\n\t\"date:Date:is_datetime\" INTEGER,\n\t\"Hours\" FLOAT,\n\t\"Experience\" TEXT\n)"
+	},
+	"Side Quests": {
+		"data_source_id": "6f1def5a-d41e-41a2-8928-9d2068356163",
+		"title_property": "Name",
+		"schema": {
+			"Name": { "type": "title" },
+			"Status": {
+				"type": "select",
+				"options": ["Idea", "Planning", "In Progress", "Completed", "Abandoned"]
+			},
+			"Category": {
+				"type": "multi_select",
+				"options": [
+					"Competition",
+					"CAS",
+					"CS Project",
+					"MUN",
+					"Academic",
+					"Other"
+				]
+			},
+			"Business Venture": {
+				"type": "multi_select",
+				"options": [
+					"Akademix",
+					"ASKUS",
+					"ClearFeed",
+					"SBB",
+					"Kizuna",
+					"MindRESET",
+					"Not Business"
+				]
+			},
+			"Notes": { "type": "text" },
+			"Outcome": { "type": "text" },
+			"Link": { "type": "url" }
+		},
+		"sqlite": "CREATE TABLE IF NOT EXISTS \"collection://6f1def5a-d41e-41a2-8928-9d2068356163\" (\n\turl TEXT UNIQUE,\n\tcreatedTime TEXT,\n\t\"Notes\" TEXT,\n\t\"Business Venture\" TEXT, -- JSON array with zero or more of [\"Akademix\", \"ASKUS\", \"ClearFeed\", \"SBB\", \"Kizuna\", \"MindRESET\", \"Not Business\"]\n\t\"Outcome\" TEXT,\n\t\"Category\" TEXT, -- JSON array with zero or more of [\"Competition\", \"CAS\", \"CS Project\", \"MUN\", \"Academic\", \"Other\"]\n\t\"Link\" TEXT,\n\t\"Status\" TEXT, -- one of [\"Idea\", \"Planning\", \"In Progress\", \"Completed\", \"Abandoned\"]\n\t\"Name\" TEXT\n)"
+	},
+	"EE Progress Tracker": {
+		"data_source_id": "4257d220-dd56-4a13-850e-a5a7e4a5d2e4",
+		"title_property": "Component",
+		"schema": {
+			"Component": { "type": "title" },
+			"Status": {
+				"type": "select",
+				"options": ["Not Started", "In Progress", "Review", "Complete"]
+			},
+			"Type": {
+				"type": "select",
+				"options": [
+					"Research",
+					"Outline",
+					"First Draft",
+					"Revision",
+					"Final Draft"
+				]
+			},
+			"Due": { "type": "date" },
+			"Supervisor Notes": { "type": "text" },
+			"Source URL": { "type": "url" }
+		},
+		"sqlite": "CREATE TABLE IF NOT EXISTS \"collection://4257d220-dd56-4a13-850e-a5a7e4a5d2e4\" (\n\turl TEXT UNIQUE,\n\tcreatedTime TEXT,\n\t\"Source URL\" TEXT,\n\t\"Supervisor Notes\" TEXT,\n\t\"date:Due:start\" TEXT,\n\t\"date:Due:end\" TEXT,\n\t\"date:Due:is_datetime\" INTEGER,\n\t\"Status\" TEXT, -- one of [\"Not Started\", \"In Progress\", \"Review\", \"Complete\"]\n\t\"Type\" TEXT, -- one of [\"Research\", \"Outline\", \"First Draft\", \"Revision\", \"Final Draft\"]\n\t\"Component\" TEXT\n)"
+	},
+	"Modern Greek Portfolio": {
+		"data_source_id": "d1c85d93-9eec-45d6-913a-7accb1fbe4a4",
+		"title_property": "Title",
+		"schema": {
+			"Title": { "type": "title" },
+			"Status": {
+				"type": "select",
+				"options": ["Not Started", "In Progress", "Done"]
+			},
+			"Assessment": {
+				"type": "multi_select",
+				"options": [
+					"Individual Oral",
+					"Paper 1 — Guided Analysis",
+					"Paper 2 — Comparative Essay"
+				]
+			},
+			"Areas of exploration": {
+				"type": "multi_select",
+				"options": [
+					"Intertextuality",
+					"Time and space",
+					"Readers writers and texts"
+				]
+			},
+			"Concepts": {
+				"type": "multi_select",
+				"options": [
+					"Representation",
+					"Transformation",
+					"Perspective",
+					"Communication",
+					"Creativity",
+					"Culture",
+					"Identity"
+				]
+			},
+			"Fields of Inquiry for Global Issues": {
+				"type": "multi_select",
+				"options": [
+					"Culture identity and community",
+					"Beliefs values and education",
+					"Politics power and justice",
+					"Art creativity and the imagination",
+					"Science technology and the environment"
+				]
+			},
+			"Text / Work / Novel": {
+				"type": "multi_select",
+				"options": [
+					"La Haine",
+					"Το παλτό",
+					"Μπάρτλμπυ ο Γραφέας",
+					"Γκιακ",
+					"Les Quatre Cents Coups",
+					"Ο ήχος του όπλου"
+				]
+			},
+			"Reading Log": {
+				"type": "multi_select",
+				"options": [
+					"Language",
+					"Prose: Non-Fiction",
+					"Prose: Fiction",
+					"Poetry",
+					"Drama"
+				]
+			},
+			"Skills": {
+				"type": "multi_select",
+				"options": ["interactive", "Productive", "Receptive"]
+			},
+			"Logged": { "type": "checkbox" }
+		},
+		"sqlite": "CREATE TABLE IF NOT EXISTS \"collection://d1c85d93-9eec-45d6-913a-7accb1fbe4a4\" (\n\turl TEXT UNIQUE,\n\tcreatedTime TEXT,\n\t\"Text / Work / Novel\" TEXT,\n\t\"Concepts\" TEXT,\n\t\"Logged\" TEXT,\n\t\"Fields of Inquiry for Global Issues\" TEXT,\n\t\"Reading Log\" TEXT,\n\t\"Skills\" TEXT,\n\t\"Status\" TEXT, -- one of [\"Not Started\", \"In Progress\", \"Done\"]\n\t\"Assessment\" TEXT,\n\t\"Areas of exploration\" TEXT,\n\t\"Title\" TEXT\n)"
+	},
+	"Backlog Items": {
+		"data_source_id": "be9f228b-d3ff-43fd-a357-fef2424d8914",
+		"title_property": "Name",
+		"schema": {
+			"Name": { "type": "title" },
+			"Status": {
+				"type": "select",
+				"options": ["Inbox", "Up Next", "Doing", "Done", "Archived"]
+			},
+			"Category": {
+				"type": "select",
+				"options": [
+					"Project Idea",
+					"Thing to Learn",
+					"Resource",
+					"Course",
+					"Book",
+					"Tool",
+					"Homework"
+				]
+			},
+			"Priority": {
+				"type": "select",
+				"options": ["🔴 High", "🟡 Medium", "🟢 Low"]
+			},
+			"Notes": { "type": "text" },
+			"Added": { "type": "created_time" }
+		},
+		"sqlite": "CREATE TABLE IF NOT EXISTS \"collection://be9f228b-d3ff-43fd-a357-fef2424d8914\" (\n\turl TEXT UNIQUE,\n\tcreatedTime TEXT,\n\t\"Category\" TEXT, -- one of [\"Project Idea\", \"Thing to Learn\", \"Resource\", \"Course\", \"Book\", \"Tool\", \"Homework\"]\n\t\"Priority\" TEXT, -- one of [\"🔴 High\", \"🟡 Medium\", \"🟢 Low\"]\n\t\"Notes\" TEXT,\n\t\"Added\" TEXT NOT NULL,\n\t\"Status\" TEXT, -- one of [\"Inbox\", \"Up Next\", \"Doing\", \"Done\", \"Archived\"]\n\t\"Name\" TEXT\n)"
+	},
+	"Coding Projects": {
+		"data_source_id": "4793ae4a-5050-459a-9b97-114f0656d15a",
+		"title_property": "Project",
+		"schema": {
+			"Project": { "type": "title" },
+			"Status": {
+				"type": "select",
+				"options": ["Idea", "In Progress", "Paused", "Shipped", "Archived"]
+			},
+			"Category": {
+				"type": "select",
+				"options": [
+					"IB IA",
+					"Side Project",
+					"Competition",
+					"Learning",
+					"Tool/Automation",
+					"Web App"
+				]
+			},
+			"Stack": {
+				"type": "multi_select",
+				"options": [
+					"Python",
+					"JavaScript",
+					"HTML/CSS",
+					"TypeScript",
+					"Swift",
+					"React",
+					"Node.js",
+					"Flask",
+					"Other"
+				]
+			},
+			"Description": { "type": "text" },
+			"Repo URL": { "type": "url" },
+			"GitHub Repo ID": { "type": "number" },
+			"Last Pushed": { "type": "date" },
+			"Started": { "type": "date" },
+			"Last Updated": { "type": "last_edited_time" }
+		},
+		"sqlite": "CREATE TABLE IF NOT EXISTS \"collection://4793ae4a-5050-459a-9b97-114f0656d15a\" (\n\turl TEXT UNIQUE,\n\tcreatedTime TEXT,\n\t\"Status\" TEXT, -- one of [\"Idea\", \"In Progress\", \"Paused\", \"Shipped\", \"Archived\"]\n\t\"Stack\" TEXT, -- JSON array with zero or more of [\"Python\", \"JavaScript\", \"HTML/CSS\", \"TypeScript\", \"Swift\", \"React\", \"Node.js\", \"Flask\", \"Other\"]\n\t\"date:Last Pushed:start\" TEXT,\n\t\"date:Last Pushed:end\" TEXT,\n\t\"date:Last Pushed:is_datetime\" INTEGER,\n\t\"GitHub Repo ID\" FLOAT,\n\t\"Description\" TEXT,\n\t\"date:Started:start\" TEXT,\n\t\"date:Started:end\" TEXT,\n\t\"date:Started:is_datetime\" INTEGER,\n\t\"Repo URL\" TEXT,\n\t\"Category\" TEXT, -- one of [\"IB IA\", \"Side Project\", \"Competition\", \"Learning\", \"Tool/Automation\", \"Web App\"]\n\t\"Last Updated\" TEXT NOT NULL,\n\t\"Project\" TEXT\n)"
+	},
+	"Daily Notes": {
+		"data_source_id": "115f3588-3aaa-4cf0-baf8-0fa01f009dda",
+		"title_property": "Date",
+		"schema": {
+			"Date": { "type": "title" },
+			"Mood": { "type": "select", "options": ["Great", "Good", "Okay", "Bad"] },
+			"Tags": {
+				"type": "multi_select",
+				"options": [
+					"School",
+					"Personal",
+					"Project",
+					"Reflection",
+					"Idea",
+					"Win",
+					"Blocker"
+				]
+			},
+			"Highlights": { "type": "text" },
+			"Created": { "type": "created_time" }
+		},
+		"sqlite": "CREATE TABLE IF NOT EXISTS \"collection://115f3588-3aaa-4cf0-baf8-0fa01f009dda\" (\n\turl TEXT UNIQUE,\n\tcreatedTime TEXT,\n\t\"Created\" TEXT NOT NULL,\n\t\"Tags\" TEXT, -- JSON array with zero or more of [\"School\", \"Personal\", \"Project\", \"Reflection\", \"Idea\", \"Win\", \"Blocker\"]\n\t\"Mood\" TEXT, -- one of [\"Great\", \"Good\", \"Okay\", \"Bad\"]\n\t\"Highlights\" TEXT,\n\t\"Date\" TEXT\n)"
+	},
+	"Claude Memory": {
+		"data_source_id": "7e16b69e-0671-4af6-b4d2-14486534f6da",
+		"title_property": "Memory",
+		"schema": {
+			"Memory": { "type": "title" },
+			"Category": {
+				"type": "select",
+				"options": [
+					"Preference",
+					"Fact",
+					"Decision",
+					"Context",
+					"Goal",
+					"Person",
+					"Workflow",
+					"Correction"
+				]
+			},
+			"Domain": {
+				"type": "multi_select",
+				"options": ["IB", "Personal", "Coding", "School", "Career", "Projects"]
+			},
+			"Active": { "type": "checkbox" },
+			"Source": { "type": "text" },
+			"Created": { "type": "created_time" }
+		},
+		"sqlite": "CREATE TABLE IF NOT EXISTS \"collection://7e16b69e-0671-4af6-b4d2-14486534f6da\" (\n\turl TEXT UNIQUE,\n\tcreatedTime TEXT,\n\t\"Category\" TEXT, -- one of [\"Preference\", \"Fact\", \"Decision\", \"Context\", \"Goal\", \"Person\", \"Workflow\", \"Correction\"]\n\t\"Domain\" TEXT, -- JSON array with zero or more of [\"IB\", \"Personal\", \"Coding\", \"School\", \"Career\", \"Projects\"]\n\t\"Created\" TEXT NOT NULL,\n\t\"Active\" TEXT,\n\t\"Source\" TEXT,\n\t\"Memory\" TEXT\n)"
+	}
+}

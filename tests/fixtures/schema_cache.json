@@ -1,0 +1,10 @@
+{
+	"Test DB": {
+		"data_source_id": "a1b2c3d4-e5f6-1a2b-8c3d-4e5f6a7b8c9d",
+		"title_property": "Name",
+		"schema": {
+			"Name": { "type": "title" },
+			"Status": { "type": "select", "options": ["To Do", "Done"] }
+		}
+	}
+}
